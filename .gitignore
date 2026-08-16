@@ -1,0 +1,61 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+
+# next
+.next/
+out/
+build/
+dist/
+next-env.d.ts
+*.tsbuildinfo
+
+# env — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# hero intermediates — 140MB+ of PNGs that never ship
+frames/
+raw/
+*.mov
+*.mp4
+*.MOV
+!public/hero/*.webp
+
+# testing / tooling
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+/blob-report/
+.playwright/
+.lighthouseci/
+.eslintcache
+.turbo/
+
+# supabase local
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# vercel
+.vercel
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*~
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
