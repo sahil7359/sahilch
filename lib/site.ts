@@ -10,7 +10,7 @@ export const site = {
   location: 'Kolkata, India',
   targets: ['Bangalore', 'Delhi', 'Remote'] as const,
   email: 'help.sahil.gob@gmail.com',
-  url: 'https://sahil-portfolio.vercel.app', // updated at deploy
+  url: 'https://sahilch.vercel.app', // update if Vercel assigns a different domain
 
   links: {
     github: 'https://github.com/sahil7359',
