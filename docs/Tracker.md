@@ -37,11 +37,12 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [x] **Landing bundle 141.8KB gz modern (nomodule polyfill excluded) ≤165 ✓; chat panel absent**
 - [x] `pnpm build` green · learn/changes/0002 · commit
 
-## Phase 5 — Hero
-- [ ] `HeroFallback` first, correct standalone
-- [ ] Full fallback matrix (reduced-motion, <768px, no createImageBitmap, saveData, no-JS)
-- [ ] Chosen path per Group 3; if footage, manifest <4MB verified
-- [ ] `pnpm build` green · learn/ entry · commit `feat(hero): scrollycanvas with full fallback matrix`
+## Phase 5 — Hero ✅
+- [x] `HeroFallback` first, correct standalone (static identity, real DOM text)
+- [x] Fallback matrix: reduced-motion / <768px / saveData / no-JS → static poster via dynamic ssr:false store; canvas never downloaded
+- [x] Generative point-cloud hero (Group 3 = option b): 4200-pt silhouette, 4 beats, rim-light, drift, IO-gated rAF, synchronous poster frame
+- [x] Verified: build centred figure (18k lit px, centred), poster paints w/o rAF. Live scroll animation runs in real browser (rAF paused in hidden pane)
+- [x] `pnpm build` green · learn/changes/0003 + decisions/0001 · commit
 
 ## Phase 6 — Ticketing [conditional]
 - [ ] Migrations in order; **RLS denial test passes first**

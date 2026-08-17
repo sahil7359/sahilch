@@ -18,8 +18,14 @@ contains a personal fact about him (R1) — it is entirely about the code.
 | # | Title | Type |
 |---|---|---|
 | 0001 | Scaffold, design tokens, toolchain pinning | infrastructure |
+| 0002 | Landing sections from interview-sourced content | feature |
+| 0003 | Generative point-cloud hero with fallback matrix | feature |
 
 ## Decisions so far
 
-_(added as they are made — hand-rolled canvas, hybrid retrieval, RLS deny-all,
-site-agent-vs-Quorum, …)_
+| # | Title |
+|---|---|
+| 0001 | Hand-rolled canvas over GSAP |
+
+_(still to come: hybrid-retrieval-over-pure-vector, rls-deny-all,
+site-agent-vs-Quorum …)_
