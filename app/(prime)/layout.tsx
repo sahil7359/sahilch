@@ -1,6 +1,7 @@
 import { Nav } from '@/components/nav/Nav';
 import { Footer } from '@/components/Footer';
 import { LenisProvider } from '@/components/LenisProvider';
+import { ChatLauncher } from '@/components/chat/ChatLauncher';
 
 export default function PrimeLayout({
   children,
@@ -13,7 +14,7 @@ export default function PrimeLayout({
       <Nav />
       <main id="main">{children}</main>
       <Footer />
-      {/* ChatLauncher mounts here in Phase 7, gated by NEXT_PUBLIC_FEATURE_CHAT. */}
+      <ChatLauncher />
     </>
   );
 }
