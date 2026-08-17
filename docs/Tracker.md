@@ -44,12 +44,13 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [x] Verified: build centred figure (18k lit px, centred), poster paints w/o rAF. Live scroll animation runs in real browser (rAF paused in hidden pane)
 - [x] `pnpm build` green · learn/changes/0003 + decisions/0001 · commit
 
-## Phase 6 — Ticketing [conditional]
-- [ ] Migrations in order; **RLS denial test passes first**
-- [ ] Route: Turnstile server-verify → Zod → honeypot → rate limit → idempotent insert → ref → `Promise.allSettled` emails
-- [ ] Resend templates; Svix-verified webhook; pending-delivery retry job
-- [ ] Idempotency test: double-submit → one row
-- [ ] `pnpm build` green · learn/ entry · commit `feat(tickets): ticketing pipeline with turnstile and resend`
+## Phase 6 — Ticketing ✅ (Tier 2)
+- [x] Migration applied (user ran 0001_init.sql); **RLS denial test PASSED first** (7 tables, read+write)
+- [x] Route: Turnstile server-verify → Zod → honeypot → hashed-IP rate limit → idempotent insert → sequence ref → allSettled emails
+- [x] Resend send (notification + auto-reply, graceful); Svix-verified webhook (delivery status)
+- [x] Idempotency test: double-submit → exactly one row ✓; ref format ✓; validation 400 ✓; honeypot 201 ✓; turnstile 403 ✓
+- [x] `NEXT_PUBLIC_FEATURE_TICKETS=true`; `pnpm build` green · learn/changes/0004 + decisions/0002 · commit
+- [ ] Happy-path (real Turnstile solve + email delivery) — manual check at deploy; pending-delivery retry job (Phase 10)
 
 ## Phase 7 — RAG agent [conditional]
 - [ ] Corpus authored with provenance tags → **mandatory review checkpoint (claim table)**
