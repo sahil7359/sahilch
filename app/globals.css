@@ -1,0 +1,209 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   DESIGN TOKENS — the only place hex literals are allowed (Design.md).
+   Tailwind v4 @theme: these generate utilities (bg-bg, text-ink, ease-out …).
+--------------------------------------------------------------------------- */
+@theme {
+  /* PRIME palette */
+  --color-bg: #000000;
+  --color-surface: #0a0a0c;
+  --color-elevated: #121214;
+  --color-ink: #f5f5f7; /* 19.8:1 */
+  --color-muted: #86868b; /* 5.9:1 — body-safe */
+  --color-dim: #48484a; /* 3.0:1 — DECORATIVE ONLY, never text */
+  --color-accent: #2997ff; /* 6.4:1 */
+  --color-hair: rgb(255 255 255 / 0.09);
+
+  --font-sans: var(--font-inter), -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, 'SFMono-Regular', monospace;
+
+  --text-hero: clamp(2.4rem, 7.2vw, 6rem);
+  --text-h2: clamp(1.9rem, 4.4vw, 3.2rem);
+  --text-h3: 1.375rem;
+  --text-body: 1.0625rem;
+  --text-micro: 0.6875rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --radius-card: 20px;
+  --radius-pill: 100px;
+}
+
+/* Non-namespaced tokens used by hand-written CSS/inline styles. */
+:root {
+  --tracking-hero: -0.035em;
+  --tracking-h2: -0.03em;
+  --dur-fast: 180ms;
+  --dur-base: 400ms;
+  --dur-slow: 700ms;
+  --container: 1120px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --section-y: clamp(80px, 14vh, 160px);
+  color-scheme: dark;
+}
+
+/* Dimension theme — same components, different token values. */
+[data-theme='warp'] {
+  --color-bg: #05070a;
+  --color-surface: #0a1014;
+  --color-ink: #d8fff0;
+  --color-muted: #5f8f82;
+  --color-accent: #39ff9e;
+  --font-sans: var(--font-mono);
+  --radius-card: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   BASE
+--------------------------------------------------------------------------- */
+* {
+  border-color: var(--color-hair);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  color: var(--color-ink);
+}
+
+/* Visible focus ring on every interactive element (a11y). */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip-to-content link. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  background: var(--color-elevated);
+  color: var(--color-ink);
+  border: 1px solid var(--color-hair);
+  border-radius: 0 0 8px 0;
+  transform: translateY(-120%);
+  transition: transform var(--dur-fast) var(--ease-io);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Layout helpers. */
+.container-x {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Kicker — uppercase micro label. */
+.kicker {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Premium hero gradient-clip (the cheap premium signal). */
+.text-gradient {
+  background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   COMPONENTS
+--------------------------------------------------------------------------- */
+/* Frosted nav — small region, own layer, contained (the backdrop-filter trap). */
+.nav-frost {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  contain: layout paint;
+  transform: translateZ(0);
+  transition: transform var(--dur-fast) var(--ease-io);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-frost {
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  }
+}
+
+.hairline-b {
+  border-bottom: 1px solid var(--color-hair);
+}
+
+/* Section vertical rhythm. */
+.section {
+  padding-block: var(--section-y);
+}
+.section-tight {
+  padding-block: clamp(48px, 8vh, 96px);
+}
+
+/* Reveal primitive — starts hidden, .is-in reveals (once). Reduced-motion shows instantly. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   MOTION — reveals fire once; genuinely off under reduced-motion.
+--------------------------------------------------------------------------- */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -59,3 +59,7 @@ Thumbs.db
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# internal working ledger — local only, never in the public repo
+docs/interview.md
+docs/corpus-review.md

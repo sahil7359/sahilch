@@ -20,12 +20,12 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [ ] `.env.local` written (gitignore verified), `.env.example` created
 - [ ] `NEXT_PUBLIC_FEATURE_CHAT` / `NEXT_PUBLIC_FEATURE_TICKETS` set; both states will be verified
 
-## Phase 3 — Skeleton
-- [ ] Next.js 16 + TS strict + Tailwind v4 + pnpm
-- [ ] Token set incl. `[data-theme='warp']`; root layout (fonts, skip-link, theme attr)
-- [ ] Both route groups; Nav, MobileMenu, Footer; Lenis (off under reduced-motion)
-- [ ] `lib/env.ts` Zod-validating at boot
-- [ ] `pnpm build` green · learn/ change entry · commit `feat: scaffold application shell and design system`
+## Phase 3 — Skeleton ✅
+- [x] Next.js 16 + TS strict + Tailwind v4 + pnpm (TS pinned 6.x, ESLint 9.x — see learn/0001)
+- [x] Token set incl. `[data-theme='warp']`; root layout (fonts, skip-link, theme attr)
+- [x] Both route groups; Nav (hide-on-scroll + progress line), MobileMenu, Footer; Lenis (off under reduced-motion)
+- [x] `lib/env.ts` Zod-validating at boot; `lib/site.ts` confirmed-facts source
+- [x] `pnpm typecheck && lint && build` green · learn/changes/0001 · commit
 
 ## Phase 4 — Sections & content
 - [ ] Every section per §5.5, copy from interview answers
