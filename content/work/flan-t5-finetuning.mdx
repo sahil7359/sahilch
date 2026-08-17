@@ -1,0 +1,35 @@
+---
+title: FLAN-T5 Text-to-SQL
+tagline: PEFT fine-tuning of FLAN-T5 for text-to-SQL over ITR-6 tax filings — built during the LTIMindtree internship.
+status: shipped
+tier: entry
+order: 3
+featured: true
+stack:
+  - FLAN-T5
+  - PEFT
+  - Hugging Face Transformers
+  - Python
+  - FastAPI
+repo: https://github.com/sahil7359/ITR6-t2sql
+metrics:
+  - label: Exact-match gain vs base
+    value: Not measured
+    method: "the base-vs-tuned comparison was not rigorously run — stated plainly rather than estimated"
+limitations:
+  - "The exact-match improvement over the base model was not rigorously measured — reported here as not-measured rather than estimated."
+  - "An early project: a small base model and a narrow schema, not a general text-to-SQL system."
+problem: >-
+  Querying a database requires SQL, a barrier for non-technical users working
+  with structured tax data such as ITR-6 filings.
+approach: >-
+  Fine-tuned Google's FLAN-T5 with PEFT for a text-to-SQL task, building the
+  training corpus end to end — extraction, cleaning and entity tagging — and
+  serving it behind a small API. This was the fine-tuning work from the
+  LTIMindtree internship.
+tradeoff: >-
+  A small, PEFT-tuned base model keeps training and serving cheap, at the cost of
+  the ceiling a larger model or a full fine-tune would reach. The improvement
+  over the base model was not rigorously measured, so it is reported as
+  not-measured rather than guessed.
+---

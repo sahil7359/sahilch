@@ -1,0 +1,63 @@
+---
+title: Quorum
+tagline: A supervisor agent that reviews pull requests, grounds every finding in the target repo's own docs, and won't post anything without a human approving it.
+status: shipped
+tier: headline
+order: 2
+featured: true
+stack:
+  - Python
+  - FastAPI
+  - LangGraph
+  - MCP (client + server)
+  - Postgres + pgvector
+  - Hybrid retrieval (dense + BM25)
+repo: https://github.com/sahil7359/Quorum
+metrics:
+  - label: Retrieval NDCG@5
+    value: "0.526"
+    method: "hybrid dense + BM25, committed baseline, CI-gated"
+  - label: Reranking delta
+    value: "-0.079 at 63-91x latency, cut"
+    method: "own corpus and labels; the delta is trusted over the absolute score"
+  - label: AST context-scoping
+    value: "-34.86% tokens"
+    method: "measured across real commits from the repo's own history"
+  - label: Finding recall
+    value: "0%"
+    method: "10-PR real-world golden set — reported honestly, not hidden"
+  - label: Routing recall
+    value: "100%"
+    method: "same eval (correctness is unconditional)"
+  - label: Citation rate
+    value: "1.00"
+    method: "by construction — a finding cannot exist without a resolvable citation"
+limitations:
+  - "Cite-or-drop means the failure mode of a grounded reviewer is silence, on purpose — that is why finding recall will never be high, and why the number is reported plainly rather than chased."
+  - "A citation proves grounding, not aptness: a finding can cite a real, visible chunk that does not actually support its claim."
+  - "Single-operator trust model — one shared token budget, one rate limit, no per-tenant isolation."
+  - "Not load-tested: the design supports horizontal scaling but concurrency has not been proven."
+problem: >-
+  Most AI code-review tools read a diff and write plausible-sounding comments you
+  have to take on faith. A finding is only as good as its citation — and
+  citations are checkable.
+approach: >-
+  A supervisor reads a pull request through the official GitHub MCP server and
+  decides which specialists the diff warrants — correctness, security,
+  test-coverage — each grounding its findings in retrieved chunks of the target
+  repo's own documentation via hybrid retrieval (dense + BM25, RRF). Synthesis
+  drops any finding without a resolvable citation, the graph then stops for
+  durable human approval, and only then does anything reach GitHub, recorded in
+  an append-only audit. The same capability is published as an MCP server.
+tradeoff: >-
+  Reranking was cut after measuring it cost 0.079 NDCG@5 for a 63-91x latency
+  increase — a measured decision, not a guess. And cite-or-drop deliberately
+  trades recall for trust: the agent stays silent rather than post an ungrounded
+  finding, which is why finding recall is 0% on the hard set and reported rather
+  than buried. It is the number worth leading with, not hiding.
+---
+
+Four clean-architecture layers with dependencies pointing inward, enforced by
+import-linter and an AST fitness test rather than by convention. The domain layer
+has zero framework imports, so the retrieval stack, the LLM adapters, and even
+LangGraph stay swappable details behind Protocol ports.

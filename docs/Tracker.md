@@ -27,14 +27,15 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [x] `lib/env.ts` Zod-validating at boot; `lib/site.ts` confirmed-facts source
 - [x] `pnpm typecheck && lint && build` green · learn/changes/0001 · commit
 
-## Phase 4 — Sections & content
-- [ ] Every section per §5.5, copy from interview answers
-- [ ] Work cards → `work/[slug]` MDX + `generateStaticParams`, metrics strip + limitations block (§5.5a)
-- [ ] Résumé placement (§5.5b); Stack two tiers (§5.5)
-- [ ] Project 3 in-progress slot + tested shipped-state swap fixture (§5.5c)
-- [ ] One scroll-reveal pattern, fires once
-- [ ] **Landing bundle measured ≤165KB, chat panel absent**
-- [ ] `pnpm build` green · learn/ entry · commit `feat: landing sections with interview-sourced content`
+## Phase 4 — Sections & content ✅ (résumé placement + swap-fixture test pending)
+- [x] Every section per §5.5, copy from interview answers (Goals, Work, Stack, Experience+Education, Certifications, Hobbies, Contact)
+- [x] Work cards → `work/[slug]` MDX + `generateStaticParams`, metrics strip (3-state) + limitations block (§5.5a)
+- [~] Résumé placement (§5.5b) — hasResume=false (no PDF yet) → button hidden, in MISSING. Wire when PDF lands.
+- [x] Stack two tiers as flip cards (§5.5 + user request)
+- [x] Project 3 (Yardstick) muted in-progress line, same data shape (§5.5c). [ ] shipped-state swap fixture test — TODO before Phase 9
+- [x] One scroll-reveal pattern (Reveal), fires once
+- [x] **Landing bundle 141.8KB gz modern (nomodule polyfill excluded) ≤165 ✓; chat panel absent**
+- [x] `pnpm build` green · learn/changes/0002 · commit
 
 ## Phase 5 — Hero
 - [ ] `HeroFallback` first, correct standalone

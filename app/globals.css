@@ -183,6 +183,98 @@ body {
   }
 }
 
+/* Work card — gradient surface, hover lift + radial accent glow from the top. */
+.work-card {
+  position: relative;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-hair);
+  background: linear-gradient(180deg, var(--color-elevated), var(--color-surface));
+  padding: clamp(20px, 3vw, 28px);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.work-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 60% at 50% 0%,
+    color-mix(in srgb, var(--color-accent) 14%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+.work-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+.work-card:hover::before {
+  opacity: 1;
+}
+.work-card--entry {
+  background: var(--color-surface);
+}
+
+.chip {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.6;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.05);
+  color: var(--color-muted);
+}
+
+/* Flip card — transform-only (composited). Flips on hover, focus, or tap. */
+.flip {
+  display: block;
+  width: 100%;
+  height: 128px;
+  perspective: 900px;
+  cursor: pointer;
+}
+.flip-inner {
+  position: relative;
+  display: block;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-base) var(--ease-io);
+}
+.flip:hover .flip-inner,
+.flip:focus-visible .flip-inner,
+.flip[data-flipped='true'] .flip-inner {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-hair);
+  background: var(--color-elevated);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(180deg, var(--color-elevated), var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-accent) 25%, var(--color-hair));
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner {
+    transition: none;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    MOTION — reveals fire once; genuinely off under reduced-motion.
 --------------------------------------------------------------------------- */

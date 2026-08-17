@@ -1,0 +1,67 @@
+---
+title: DataChat
+tagline: Agentic natural-language analytics over public datasets — ask in plain English, get safe verified SQL and a grounded answer.
+status: shipped
+tier: headline
+order: 1
+featured: true
+stack:
+  - LangGraph
+  - FastAPI
+  - Pydantic v2
+  - SQLAlchemy 2 (async)
+  - Postgres + pgvector
+  - Redis
+  - MLflow
+  - Groq
+repo: https://github.com/sahil7359/DataChat
+demo: https://data-chat-seven.vercel.app
+metrics:
+  - label: Execution accuracy
+    value: "0.810"
+    method: "26-case golden set (21 answerable); Groq llama-3.3-70b, temperature 0"
+  - label: Refusal accuracy
+    value: "1.00"
+    method: "5 out-of-scope cases; deterministic scope check before SQL generation"
+  - label: SQL valid rate
+    value: "0.952"
+    method: "AST guardrail parse over the same golden set"
+  - label: Explanation faithfulness
+    value: "0.905"
+    method: "prose grounded in the returned rows, same set"
+  - label: Answer cache
+    value: "~1.0-1.6s to ~80ms"
+    method: "exact-match replay, measured through the containerised stack"
+limitations:
+  - "Retrieval is over four tables — not a hard retrieval problem, so NDCG-style numbers would be meaningless at this size."
+  - "Ambiguity is handled by the model, not a rule: a vague query like 'show me the best countries' depends on the clarify prompt firing."
+  - "Indicators are not scope-checked, so out-of-vocabulary phrasings generate SQL, match nothing, and are caught downstream — correct, but it costs a model call the country/year path avoids."
+  - "Dev and prod embed differently (a hash embedder locally, Gemini in prod); changing embedder without re-ingesting silently degrades retrieval."
+  - "The eval covers single-turn NL-to-SQL only — not multi-turn, the human-approval path, chart correctness, or latency."
+problem: >-
+  Public open datasets are rich but locked behind SQL and BI tools, and most
+  text-to-SQL demos are single-shot prompts that hallucinate columns, run
+  unvalidated queries, and are never evaluated.
+approach: >-
+  A real LangGraph agent: plan, retrieve, generate SQL, guardrail, (human
+  approve), execute, verify, self-repair, explain, visualize. Retrieval grounds
+  the model in the schema (RAG-to-schema) via pgvector so it cannot invent
+  columns; generated SQL passes an AST guardrail chain and runs on a read-only,
+  least-privilege database role. A provider circuit breaker (Groq to Gemini,
+  with a swappable self-hosted Ollama) keeps the public URL answering, and every
+  run is traced in MLflow.
+tradeoff: >-
+  The corpus is deliberately narrow — 15 countries — a cost decision, not an
+  oversight. And the published accuracy uses strict result-set equality, which
+  undercounts correct answers: three of the four misses return a country name
+  where the gold query selected its ISO code, so a lenient scorer reads about
+  0.95. It shipped strict anyway, because loosening a metric to flatter yourself
+  is how an eval stops being worth running.
+---
+
+The differentiators are the agentic LangGraph core, the guardrail plus
+read-only-role defence in depth, the provider circuit breaker, and the
+evaluation harness that gates every merge. The narrowness of the dataset is the
+point: it lets the project spend its complexity budget on retrieval quality and
+evaluation rather than corpus size, and widening it is a config change, not a
+rewrite.

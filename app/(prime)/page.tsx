@@ -1,8 +1,12 @@
 import { site } from '@/lib/site';
-import { Reveal } from '@/components/ui/Reveal';
+import { Goals } from '@/components/sections/Goals';
+import { Work } from '@/components/sections/Work';
+import { Stack } from '@/components/sections/Stack';
+import { Experience } from '@/components/sections/Experience';
+import { Certifications } from '@/components/sections/Certifications';
+import { Hobbies } from '@/components/sections/Hobbies';
+import { Contact } from '@/components/sections/Contact';
 
-// Phase 3 skeleton. The generative hero (Phase 5) and full sections (Phase 4)
-// replace these stubs. The static hero below is the honest fallback identity.
 export default function Home() {
   return (
     <>
@@ -43,23 +47,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section stubs — filled in Phase 4. */}
-      {(
-        [
-          ['work', 'Work'],
-          ['stack', 'Stack'],
-          ['experience', 'Experience'],
-          ['certifications', 'Certifications'],
-          ['contact', 'Contact'],
-        ] as const
-      ).map(([id, label]) => (
-        <section key={id} id={id} className="section container-x">
-          <Reveal>
-            <p className="kicker mb-4">{label}</p>
-            <p className="text-muted">Coming together in Phase 4.</p>
-          </Reveal>
-        </section>
-      ))}
+      <Goals />
+      <Work />
+      <Stack />
+      <Experience />
+      <Certifications />
+      <Hobbies />
+      <Contact />
     </>
   );
 }
