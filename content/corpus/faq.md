@@ -7,7 +7,11 @@ Yes; Sahil is open to relocating for roles in Bangalore or Delhi, and he is open
 Yes; remote is one of the options Sahil is targeting. [interview Q9]
 
 ## How can someone contact Sahil?
-Someone can reach Sahil through the contact form on this website, or through the LinkedIn and GitHub links in the footer. [site]
+Someone can reach Sahil at his email, help.sahil.gob@gmail.com, or through the contact form on this website. [interview Q2] [site]
+He can also be reached through the LinkedIn and GitHub links in the footer. [site]
+
+## What is Sahil's email address?
+Sahil's contact email is help.sahil.gob@gmail.com. [interview Q2]
 
 ## What is Sahil's GitHub?
 Sahil's GitHub is github.com/sahil7359. [interview Q4]
