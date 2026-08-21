@@ -22,6 +22,11 @@ export function Footer() {
           <a href={`mailto:${site.email}`} className="hover:text-ink">
             Email
           </a>
+          {site.hasResume && (
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-ink">
+              Résumé
+            </a>
+          )}
           <Link href="/dimension" className="text-accent">
             Dimension
           </Link>

@@ -25,8 +25,8 @@ export const site = {
     leetcode: 'sahil7359',
   },
 
-  // Résumé PDF not yet provided (current file is a template). §5.5b: render nothing until true.
-  hasResume: false,
+  // Résumé PDF lives at public/resume.pdf.
+  hasResume: true,
 } as const;
 
 export type Site = typeof site;

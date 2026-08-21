@@ -250,6 +250,16 @@ export function GenerativeHero() {
             >
               Get in touch
             </a>
+            {site.hasResume && (
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-accent/60 px-6 py-3 text-sm text-ink transition-colors hover:bg-accent/10"
+              >
+                Résumé
+              </a>
+            )}
           </div>
         </div>
       </div>

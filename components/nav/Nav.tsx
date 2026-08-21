@@ -74,7 +74,7 @@ export function Nav() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden rounded-full border border-accent/60 px-3 py-1.5 text-[13px] text-ink transition-colors hover:bg-accent/10 sm:inline-block"
+                className="rounded-full border border-accent/60 px-3 py-1.5 text-[13px] text-ink transition-colors hover:bg-accent/10"
               >
                 Résumé
               </a>
