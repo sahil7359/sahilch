@@ -25,7 +25,7 @@ export async function sendNotification(t: Ticket) {
   const esc = (v: string) => v.replace(/</g, '&lt;');
   return client.emails.send({
     from: FROM,
-    to: site.email,
+    to: site.notifyEmail,
     replyTo: t.email,
     subject: `[${t.ref}] ${sanitizeHeader(t.subject)}`,
     html: `<div style="font-family:system-ui;line-height:1.6">

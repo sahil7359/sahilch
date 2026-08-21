@@ -9,7 +9,10 @@ export const site = {
   tagline: 'AI/ML Engineer — builds production AI agents',
   location: 'Kolkata, India',
   targets: ['Bangalore', 'Delhi', 'Remote'] as const,
-  email: 'help.sahil.gob@gmail.com',
+  email: 'help.sahil.gob@gmail.com', // public contact + reply-to
+  // Where contact-form notifications are delivered — the Resend account email,
+  // so delivery is reliable without a verified domain.
+  notifyEmail: 'sahilch7359@gmail.com',
   url: 'https://sahilch.vercel.app', // update if Vercel assigns a different domain
 
   links: {
