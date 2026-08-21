@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { NAV_LINKS } from '@/components/nav/links';
 import { MobileMenu } from '@/components/nav/MobileMenu';
+import { ResumeButton } from '@/components/resume/ResumeButton';
 import { site } from '@/lib/site';
 
 /**
@@ -70,14 +71,7 @@ export function Nav() {
 
           <div className="flex items-center gap-3">
             {site.hasResume && (
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-accent/60 px-3 py-1.5 text-[13px] text-ink transition-colors hover:bg-accent/10"
-              >
-                Résumé
-              </a>
+              <ResumeButton className="rounded-full border border-accent/60 px-3 py-1.5 text-[13px] text-ink transition-colors hover:bg-accent/10" />
             )}
             <Link
               href="/dimension"

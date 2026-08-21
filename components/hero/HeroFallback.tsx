@@ -1,4 +1,5 @@
 import { site } from '@/lib/site';
+import { ResumeButton } from '@/components/resume/ResumeButton';
 
 /**
  * The static hero. This is what mobile, no-JS, reduced-motion, and save-data
@@ -42,14 +43,7 @@ export function HeroFallback() {
           Get in touch
         </a>
         {site.hasResume && (
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-accent/60 px-6 py-3 text-sm text-ink transition-colors hover:bg-accent/10"
-          >
-            Résumé
-          </a>
+          <ResumeButton className="rounded-full border border-accent/60 px-6 py-3 text-sm text-ink transition-colors hover:bg-accent/10" />
         )}
       </div>
     </section>

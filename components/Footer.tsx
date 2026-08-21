@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { site } from '@/lib/site';
+import { ResumeButton } from '@/components/resume/ResumeButton';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -22,11 +23,7 @@ export function Footer() {
           <a href={`mailto:${site.email}`} className="hover:text-ink">
             Email
           </a>
-          {site.hasResume && (
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-ink">
-              Résumé
-            </a>
-          )}
+          {site.hasResume && <ResumeButton className="hover:text-ink">Résumé</ResumeButton>}
           <Link href="/dimension" className="text-accent">
             Dimension
           </Link>

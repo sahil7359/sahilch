@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   turbopack: { root: path.resolve(process.cwd()) },
+  // Bundle the gated résumé PDF with its route so it ships on Vercel but is
+  // never at a public URL.
+  outputFileTracingIncludes: {
+    '/api/resume': ['./content/resume.pdf'],
+  },
   async headers() {
     return [
       {

@@ -36,6 +36,13 @@ export default function Privacy() {
           or shared with anyone beyond delivering your message.
         </p>
         <p>
+          The résumé is gated. To download it you provide your name, role, and
+          optionally your company, and tick a consent box; your IP address and
+          browser are recorded alongside those details so Sahil knows who
+          requested it. This is used only for his own reference — never shared or
+          sold. Email Sahil to have that record deleted.
+        </p>
+        <p>
           Want your message deleted? Email Sahil and it&apos;s gone.
         </p>
       </div>
