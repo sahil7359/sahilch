@@ -36,3 +36,35 @@ jobs:
           fetch-depth: 0
       - name: gitleaks
         uses: gitleaks/gitleaks-action@v2
+
+  # Blocking RAG eval — runs only when the API-key secrets are configured on the
+  # repo (Settings → Secrets → Actions). Skips cleanly otherwise so CI still
+  # passes for contributors without keys.
+  eval:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: eval:rag
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          EMBEDDING_API_KEY: ${{ secrets.EMBEDDING_API_KEY }}
+        run: |
+          if [ -z "$GROQ_API_KEY" ]; then echo "No API keys configured — skipping eval."; exit 0; fi
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY"
+            echo "GROQ_API_KEY=$GROQ_API_KEY"
+            echo "EMBEDDING_API_KEY=$EMBEDDING_API_KEY"
+          } > .env.local
+          pnpm eval:rag

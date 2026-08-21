@@ -21,6 +21,8 @@ contains a personal fact about him (R1) — it is entirely about the code.
 | 0002 | Landing sections from interview-sourced content | feature |
 | 0003 | Generative point-cloud hero with fallback matrix | feature |
 | 0004 | Ticketing pipeline (Turnstile, idempotency, Resend) | feature |
+| 0005 | Launch polish: metadata, CSP, OG, Dimension, chat placeholder | infrastructure |
+| 0006 | RAG chat agent: pipeline, guardrails, eval harness | feature |
 
 ## Decisions so far
 
@@ -28,5 +30,5 @@ contains a personal fact about him (R1) — it is entirely about the code.
 |---|---|
 | 0001 | Hand-rolled canvas over GSAP |
 | 0002 | RLS deny-all over anon policies |
-
-_(still to come: hybrid-retrieval-over-pure-vector, site-agent-vs-Quorum …)_
+| 0003 | Hybrid retrieval (RRF + MMR) over pure vector |
+| 0004 | Why the site agent and Quorum are both RAG systems |

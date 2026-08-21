@@ -1,17 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { features } from '@/lib/env';
+import { ChatPanel } from '@/components/chat/ChatPanel';
 
 /**
- * Placeholder chat launcher. The grounded RAG agent is built but deferred; this
- * shows an honest "coming soon" on click rather than a broken feature. When
- * NEXT_PUBLIC_FEATURE_CHAT is turned on later, this is swapped for the real panel.
+ * Floating "Ask AI" launcher. With NEXT_PUBLIC_FEATURE_CHAT on it opens the
+ * grounded RAG panel; off, it shows an honest "coming soon" — never a broken
+ * feature.
  */
 export function ChatLauncher() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || features.chat) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
@@ -19,11 +21,13 @@ export function ChatLauncher() {
 
   return (
     <>
-      {open && (
+      {open && features.chat && <ChatPanel onClose={() => setOpen(false)} />}
+
+      {open && !features.chat && (
         <div
           role="dialog"
           aria-label="AI assistant"
-          className="fixed bottom-24 right-5 z-50 w-[300px] rounded-[16px] border border-[color:var(--color-hair)] bg-elevated p-5 shadow-2xl"
+          className="fixed bottom-20 right-5 z-50 w-[300px] rounded-[16px] border border-[color:var(--color-hair)] bg-elevated p-5 shadow-2xl"
         >
           <p className="text-sm font-semibold text-ink">Ask AI — coming soon</p>
           <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -36,16 +40,14 @@ export function ChatLauncher() {
           </a>
         </div>
       )}
+
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         className="fixed bottom-5 right-5 z-50 flex h-12 items-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-black shadow-lg transition-transform hover:-translate-y-0.5"
       >
-        <span
-          className="inline-block h-2 w-2 rounded-full bg-black/70"
-          aria-hidden="true"
-        />
+        <span className="inline-block h-2 w-2 rounded-full bg-black/70" aria-hidden="true" />
         Ask AI
       </button>
     </>

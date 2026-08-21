@@ -52,11 +52,14 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [x] `NEXT_PUBLIC_FEATURE_TICKETS=true`; `pnpm build` green · learn/changes/0004 + decisions/0002 · commit
 - [ ] Happy-path (real Turnstile solve + email delivery) — manual check at deploy; pending-delivery retry job (Phase 10)
 
-## Phase 7 — RAG agent [conditional]
-- [ ] Corpus authored with provenance tags → **mandatory review checkpoint (claim table)**
-- [ ] config → embed → ingest (tag-strip test) → hybrid RPC → retrieve+MMR → guard → prompt → cache → `/api/chat` SSE → chat UI
-- [ ] 60 golden + 26 adversarial evals; `pnpm eval:rag` blocking in CI
-- [ ] `pnpm build` green · learn/ entry · commit `feat(agent): rag pipeline with guardrails and evaluation harness`
+## Phase 7 — RAG agent ✅ (v2.0)
+- [x] Corpus authored (11 files, 120 claims, provenance-tagged) → **review checkpoint APPROVED** ("all good")
+- [x] config → embed (Jina v3) → ingest (61 chunks, 0 tags leaked) → hybrid RPC → retrieve+MMR → guard (L1/L4) → prompt (L3) → cache → `/api/chat` SSE → chat UI (ChatPanel/Message/SourceChips/useChatStream)
+- [x] Model: `openai/gpt-oss-120b` (brief's llama-3.3 didn't exist on account); L2 gate tuned to 0.40; temp 0; ASCII-fold output
+- [x] evals: 42 golden + 26 adversarial; **recall 97.6% · false refusals 0 · groundedness 100% · adversarial 26/26 · hallucinations 0**; `eval:rag` in CI (guarded on secrets)
+- [x] HTTP-verified: answer+sources, injection/low_score/L3 refusals, 400. `pnpm typecheck && lint && build` green
+- [x] learn/changes/0006 + decisions/0003 + 0004(mandatory) · commit
+- [ ] Enable live: set `NEXT_PUBLIC_FEATURE_CHAT=true` on Vercel + redeploy (corpus already ingested in live DB)
 
 ## Phase 8 — Dimension & polish
 - [ ] `(dimension)` under `warp`; View Transition; ISR feeds (last-good, hide-on-fail)

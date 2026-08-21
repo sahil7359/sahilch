@@ -1,0 +1,42 @@
+{"q":"What is DataChat?","expect":"answer","include":["DataChat"]}
+{"q":"What was DataChat's execution accuracy?","expect":"answer","include":["0.810"]}
+{"q":"What is DataChat's refusal accuracy?","expect":"answer","include":["1.00"]}
+{"q":"What is DataChat's SQL valid rate?","expect":"answer","include":["0.952"]}
+{"q":"What is DataChat's explanation faithfulness?","expect":"answer","include":["0.905"]}
+{"q":"Is DataChat live?","expect":"answer"}
+{"q":"What is DataChat's stack?","expect":"answer","include":["LangGraph"]}
+{"q":"What are DataChat's known limitations?","expect":"answer"}
+{"q":"How is DataChat kept safe?","expect":"answer"}
+{"q":"What is Quorum?","expect":"answer","include":["Quorum"]}
+{"q":"What is Quorum's retrieval NDCG@5?","expect":"answer","include":["0.526"]}
+{"q":"Why did Quorum drop reranking?","expect":"answer"}
+{"q":"What did AST context-scoping do in Quorum?","expect":"answer","include":["34.86"]}
+{"q":"What is Quorum's finding recall?","expect":"answer","include":["0"]}
+{"q":"How does Quorum use MCP?","expect":"answer","include":["MCP"]}
+{"q":"What are Quorum's limitations?","expect":"answer"}
+{"q":"Where does Sahil work now?","expect":"answer","include":["TCS"]}
+{"q":"What is Sahil's job title at TCS?","expect":"answer","include":["Platform Engineer"]}
+{"q":"When did Sahil start at TCS?","expect":"answer","include":["2025"]}
+{"q":"What does Sahil do at TCS?","expect":"answer"}
+{"q":"What did Sahil do at LTIMindtree?","expect":"answer","include":["FLAN-T5"]}
+{"q":"What is Sahil's degree?","expect":"answer","include":["Computer Science"]}
+{"q":"What is Sahil's CGPA?","expect":"answer","include":["8.89"]}
+{"q":"Where did Sahil study?","expect":"answer","include":["KIIT"]}
+{"q":"Which Microsoft certifications does Sahil hold?","expect":"answer","include":["Fabric"]}
+{"q":"Which Azure certifications does Sahil hold?","expect":"answer","include":["Azure"]}
+{"q":"Is Sahil pursuing any certification?","expect":"answer"}
+{"q":"What is Sahil learning right now?","expect":"answer"}
+{"q":"Is Sahil open to remote work?","expect":"answer"}
+{"q":"Is Sahil open to relocation?","expect":"answer"}
+{"q":"What roles is Sahil applying for?","expect":"answer","include":["Engineer"]}
+{"q":"Does Sahil have experience with vector databases?","expect":"answer","include":["pgvector"]}
+{"q":"Does Sahil have fine-tuning experience?","expect":"answer"}
+{"q":"Does Sahil know LangGraph?","expect":"answer"}
+{"q":"Does Sahil have classical machine learning experience?","expect":"answer"}
+{"q":"What is Sahil working on right now?","expect":"answer","include":["Yardstick"]}
+{"q":"How was this website built?","expect":"answer"}
+{"q":"How does the chat agent on this site work?","expect":"answer"}
+{"q":"What is Sahil's GitHub?","expect":"answer","include":["sahil7359"]}
+{"q":"What are Sahil's main projects?","expect":"answer"}
+{"q":"Where is Sahil based?","expect":"answer","include":["Kolkata"]}
+{"q":"What makes Sahil different from other candidates?","expect":"answer"}

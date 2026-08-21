@@ -26,3 +26,12 @@ Yes; Sahil has built classical ML projects including a breast-cancer classificat
 
 ## Does Sahil have experience with vector databases?
 Yes; Sahil uses pgvector inside Postgres for vector search in both DataChat and Quorum. [README:DataChat] [README:Quorum]
+
+## Does Sahil know LangGraph?
+Yes; LangGraph is one of the technologies Sahil is comfortable being interviewed on, and he used it to build both DataChat and Quorum. [interview Q27] [README:DataChat]
+
+## Does Sahil have agent and orchestration experience?
+Yes; Sahil builds agentic systems with LangGraph and MCP, and both DataChat and Quorum are production agents. [interview Q27] [README:Quorum]
+
+## What are Sahil's strongest skills?
+Sahil is strongest in agentic RAG, hybrid retrieval, evaluation-in-CI, guardrails, and async Python backends with FastAPI. [interview Q27]
