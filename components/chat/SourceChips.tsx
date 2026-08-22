@@ -7,11 +7,13 @@ const LABELS: Record<string, string> = {
   certifications: 'Certifications',
   skills: 'Skills',
   faq: 'FAQ',
+  hobbies: 'Hobbies',
   'projects/datachat': 'DataChat',
   'projects/quorum': 'Quorum',
   'projects/portfolio': 'This site',
   'projects/yardstick': 'Yardstick',
-  'projects/flan-t5-finetuning': 'Fine-tuning',
+  'projects/itr6-text-to-sql': 'ITR-6 Text-to-SQL',
+  'projects/electricity-forecasting': 'Forecasting',
 };
 
 export function SourceChips({ sources }: { sources?: SourceChip[] }) {

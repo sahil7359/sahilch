@@ -1,0 +1,55 @@
+---
+title: Electricity Production Forecasting
+tagline: Forecasting 33 years of monthly US utility production — with a naive baseline kept in the table, so a model has to earn its complexity.
+status: shipped
+tier: headline
+order: 4
+featured: true
+stack:
+  - Python
+  - statsmodels
+  - SARIMA
+  - Holt-Winters
+  - Streamlit
+  - Plotly
+repo: https://github.com/sahil7359/electricity_consumption_forecasting
+demo: https://elecforecast.streamlit.app
+metrics:
+  - label: SARIMA (best model)
+    value: "MASE 0.959"
+    method: "5-fold walk-forward backtest vs a seasonal-naive baseline (MASE 1.0) — about 4% better"
+  - label: Holt-Winters
+    value: "MASE 1.308"
+    method: "same backtest — worse than the naive baseline, despite a 3.5% MAPE"
+  - label: Dataset
+    value: "397 monthly obs"
+    method: "FRED IPG2211A2N, 33 years of US utility production"
+  - label: Tests
+    value: "53"
+    method: "CI on Python 3.10 and 3.12"
+limitations:
+  - "SARIMA beats the seasonal-naive baseline by only about 4 percent (MASE 0.959 vs 1.0). The small margin is the honest headline, not a disappointment to hide."
+  - "Holt-Winters loses to the baseline outright (MASE 1.308) even though its 3.5% MAPE looks respectable in isolation — which is exactly the trap a single glossy error metric sets."
+  - "'Accuracy' is deliberately absent: it is a classification metric and meaningless on a continuous series."
+problem: >-
+  Forecast 33 years of monthly US utility production (FRED IPG2211A2N, 397
+  observations) - and, more to the point, be able to tell whether any model
+  actually earns the complexity it adds.
+approach: >-
+  Compare SARIMA, Holt-Winters, and a seasonal-naive baseline under 5-fold
+  walk-forward backtesting, and keep the baseline in the results table on
+  purpose. Without a baseline you cannot tell whether a model is worth its
+  complexity: SARIMA winning by roughly 4% and Holt-Winters losing to naive
+  are both only legible because the baseline is sitting right next to them.
+tradeoff: >-
+  The headline result is deliberately unflattering. The best model beats a naive
+  baseline by only about 4%, and a model with a nice-looking 3.5% MAPE actually
+  loses to that baseline. Reporting that plainly is the whole point - a baseline
+  in the table is what separates a real result from a plausible-looking one.
+---
+
+The validation layer earned its place during the rebuild: it caught a real bug.
+The source CSV is month-first, and parsing it day-first produced a clean-looking
+series spaced one day apart — which would have silently corrupted every seasonal
+model without ever throwing an error. That is the failure mode good validation
+exists for: not the crash, but the plausible wrong answer.

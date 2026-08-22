@@ -1,0 +1,59 @@
+---
+title: ITR-6 Text-to-SQL
+tagline: Plain-English querying of Indian corporate tax filings — where the real engineering is the safety layer that stops a model inventing a column and running it.
+status: shipped
+tier: headline
+order: 3
+featured: true
+stack:
+  - Python
+  - SQLite
+  - Groq
+  - Streamlit
+repo: https://github.com/sahil7359/ITR6-t2sql
+demo: https://itr6-t2sql.streamlit.app
+metrics:
+  - label: Statutory line items
+    value: "129"
+    method: "ITR-6 fields mapped to columns whose names are legal vocabulary, not plain English"
+  - label: Independent safety gates
+    value: "2"
+    method: "static read-only guard, then SQLite EXPLAIN as the authoritative parser check"
+  - label: Tests
+    value: "55"
+    method: "CI runs green without any API credentials, on purpose"
+limitations:
+  - "The hard part is unsolved in general: mapping legal vocabulary to intent. Nothing in 'staff welfare' surfaces WORKMEN_EXPENSES, so the term mapping is curated, not learned."
+  - "All financial data is synthetic — this demonstrates the safety architecture, not a production tax tool."
+  - "The offline fallback refuses below a confidence threshold rather than guessing, so some legitimate but unusual phrasings get declined instead of answered."
+problem: >-
+  Let a user query Indian corporate tax filings (ITR-6) in plain English, over a
+  schema where 129 statutory line items map to columns named in legal
+  vocabulary - so a phrase like "staff welfare" has to reach a column such as
+  WORKMEN_EXPENSES with nothing in the words to bridge them.
+approach: >-
+  The real engineering is the safety layer, not the SQL generation. A model
+  inventing a column name is the default failure mode of text-to-SQL, and
+  "generate a query and run it" is how a demo becomes an incident. Every query
+  clears two independent gates: a static read-only guard (SELECT-only, no stacked
+  statements, schema-checked, LIMIT enforced, and string literals stripped first
+  so a company named "Drop Anchor Ltd" does not trip the DROP rule), then
+  SQLite's own EXPLAIN as the authoritative check - because a regex can always be
+  argued with, and a parser cannot.
+tradeoff: >-
+  It runs with no API key: an LLM backend when one is configured, and a curated
+  offline matcher otherwise that refuses below a confidence threshold rather than
+  guessing. A demo that dies on an expired key is worse than one that degrades
+  predictably, so the fallback is a first-class path, not an afterthought - at
+  the cost of the offline matcher being narrower than the model.
+---
+
+The two gates are deliberately different kinds of check. The static guard is
+fast and catches the obvious, but a regex can always be argued with — so it
+strips string literals first (a company called "Drop Anchor Ltd" is data, not a
+`DROP`) and never gets the last word. SQLite's `EXPLAIN` does: if the engine's
+own parser will not plan the statement as a single read, it does not run.
+
+All financial data is synthetic, and CI runs green without credentials on
+purpose. The safety layer is the product, and it has to hold whether or not a
+model is in the loop.
