@@ -1,20 +1,27 @@
 name: Supabase keepalive
 
 # Free-tier Supabase projects pause after ~7 days of inactivity, which would
-# silently break tickets. A weekly request keeps the project awake.
+# break the chat, contact form, and résumé log. This hits the app's own
+# /api/health endpoint, which runs a real SELECT against Postgres server-side —
+# genuine DB compute that resets Supabase's inactivity timer. No secret needed.
+#
+# Runs Mon/Wed/Fri (max ~3-day gap), so even if GitHub drops a scheduled run
+# (its cron is best-effort) the project still sees activity well inside 7 days.
 on:
   schedule:
-    - cron: '0 6 * * 1' # Mondays 06:00 UTC
+    - cron: '0 6 * * 1,3,5'
   workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase REST
+      - name: Hit /api/health (forces a real DB query)
         run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" \
-            "https://vtoqlmctidmguhrqyleh.supabase.co/rest/v1/rate_limits?select=bucket&limit=1" \
-            -H "apikey: ${{ secrets.SUPABASE_KEEPALIVE_KEY }}")
-          echo "Supabase responded: $code"
-          # Any response (even RLS-denied) counts as activity and keeps it awake.
+          code=$(curl -s -o /tmp/health.json -w "%{http_code}" https://sahilch.vercel.app/api/health)
+          echo "Health endpoint responded: $code"
+          cat /tmp/health.json || true
+          echo
+          # Fail loudly if the DB read did not succeed, so a broken keepalive is
+          # visible in the Actions tab instead of silently passing.
+          test "$code" = "200"
