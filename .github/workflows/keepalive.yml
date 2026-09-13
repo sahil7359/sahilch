@@ -1,27 +1,41 @@
 name: Supabase keepalive
 
-# Free-tier Supabase projects pause after ~7 days of inactivity, which would
-# break the chat, contact form, and résumé log. This hits the app's own
-# /api/health endpoint, which runs a real SELECT against Postgres server-side —
-# genuine DB compute that resets Supabase's inactivity timer. No secret needed.
+# Supabase free-tier pauses a project after ~7 days of "insufficient activity".
 #
-# Runs Mon/Wed/Fri (max ~3-day gap), so even if GitHub drops a scheduled run
-# (its cron is best-effort) the project still sees activity well inside 7 days.
+# History worth keeping: a ping every 2-3 days was NOT enough. Runs on Sep
+# 2/4/7/9/11 all returned a genuine 200 {"ok":true,"db":"up"} — real Postgres
+# round trips — and the project was still paused. So low-frequency reads do not
+# clear whatever threshold Supabase measures.
+#
+# This therefore runs every 15 minutes, and each hit performs BOTH a read and a
+# write against Postgres (see app/api/health/route.ts). The repo is public, so
+# Actions minutes are free.
+#
+# This maximises the chance of staying awake but is NOT guaranteed — Supabase's
+# metric is opaque. The guaranteed fixes remain Supabase Pro, or moving to a DB
+# that auto-wakes on connection (e.g. Neon).
 on:
   schedule:
-    - cron: '0 6 * * 1,3,5'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
+
+# Never pile up overlapping pings if a run is slow or delayed.
+concurrency:
+  group: supabase-keepalive
+  cancel-in-progress: false
 
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - name: Hit /api/health (forces a real DB query)
+      - name: Hit /api/health (real read + write against Postgres)
         run: |
-          code=$(curl -s -o /tmp/health.json -w "%{http_code}" https://sahilch.vercel.app/api/health)
+          code=$(curl -s -o /tmp/health.json -w "%{http_code}" --max-time 30 \
+            https://sahilch.vercel.app/api/health)
           echo "Health endpoint responded: $code"
           cat /tmp/health.json || true
           echo
-          # Fail loudly if the DB read did not succeed, so a broken keepalive is
-          # visible in the Actions tab instead of silently passing.
+          # Fail loudly on anything but 200, so a paused DB or a broken keepalive
+          # is visible in the Actions tab instead of silently passing.
           test "$code" = "200"
